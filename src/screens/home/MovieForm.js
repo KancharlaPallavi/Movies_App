@@ -5,10 +5,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import { Button, CardActions } from '@material-ui/core';
+import { Button, CardActions, Checkbox } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import artists from '../../common/artists';
+import genres from '../../common/genres';
+import Input from '@material-ui/core/Input';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -47,21 +51,20 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
       },
     }));
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+      PaperProps: {
+        style: {
+          maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+          width: 250,
+        },
+      },
+    };
     
-    
-    
-    
-    export default function MovieForm() {
+    export default function MovieForm(props) {
       const classes = useStyles();
-      const [genres, setgenres] = React.useState('');
-      const [artists, setartists] = React.useState('');
-      
-      const handleChange = (event) => {
-        setgenres(event.target.value);
-      };
-      const handleChange1 = (event) => {
-        setartists(event.target.value);
-      };
       return (
       <Card className={classes.root}>
       <CardContent>
@@ -69,18 +72,26 @@ const useStyles = makeStyles((theme) => ({
           FIND MOVIES BY:
         </Typography>
         <form className={classes.root} noValidate autoComplete="off">
-          <TextField id="standard-basic" label="Movie Name" />
+          <TextField id="standard-basic" label="Movie Name" onChange={props.handleTitleChange}/>
         </form>
           <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Genres </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={genres}
-              onChange={handleChange}
-              style={{width:'150%'}}
+              multiple
+              value={props.genre}
+              onChange={props.handleGenreChange}
+              input={<Input />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}
             >
-              
+            {genres.map((genre) => (
+            <MenuItem key={genre.name} value={genre.name}> 
+              <Checkbox checked={props.genre.indexOf(genre.name) > -1}/>
+              <ListItemText primary={genre.name} />
+            </MenuItem>
+            ))}
             </Select>
           </FormControl><br/>
           <FormControl className={classes.formControl}>
@@ -88,11 +99,22 @@ const useStyles = makeStyles((theme) => ({
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={artists}
-              onChange={handleChange1}
-              style={{width:'150%'}}
+              multiple
+              value={props.artist}
+              onChange={props.handleArtistChange}
+              input={<Input />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}
             >
-              
+            {artists.map((artist) => (
+            <MenuItem key={artist.first_name + artist.last_name} value={artist.first_name + artist.last_name}>
+              <Checkbox checked={
+                    props.artist.indexOf(artist.first_name + artist.last_name) >
+                    -1
+                  } />
+              <ListItemText primary={artist.first_name + " " + artist.last_name} />
+            </MenuItem>
+            ))}
             </Select>
           </FormControl><br/>
           <form className={classes.container} noValidate>
@@ -119,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
           </form>
         </CardContent>
         <CardActions>
-        <Button variant="contained" color="primary" style={{width:'100%'}}>
+        <Button variant="contained" color="primary" style={{width:'100%'}} onClick={props.handleFilter}>
           APPLY
         </Button>
         </CardActions>
