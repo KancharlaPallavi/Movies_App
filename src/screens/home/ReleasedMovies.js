@@ -7,6 +7,7 @@ import ImageListItemBar from "@material-ui/core/ImageListItemBar";
 import ImageList from "@material-ui/core/ImageList";
 import moment from "moment";
 import moviesData from "../../common/moviesData";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -78,7 +79,7 @@ function ReleasedMovies() {
       return movies;
     }
     return movies.filter((movie) => {
-        if (title===(movie.title)) {
+        if (title.toLowerCase()===(movie.title).toLowerCase()) {
           return true;
         }
       return false;
@@ -106,6 +107,7 @@ function ReleasedMovies() {
               ></ImageListItem>
               {filteredMovies.map((item) => (
                 <ImageListItem key={item.poster_url}>
+                  <Link to ={`/details/${item.id}`}>
                   <img
                     src={item.poster_url}
                     alt={item.title}
@@ -118,8 +120,8 @@ function ReleasedMovies() {
                         Release Date:{" "}
                         {moment(item.release_date).format("ddd ll")}
                       </span>
-                    }
-                  />
+                    }/>
+                  </Link>
                 </ImageListItem>
               ))}
             </ImageList>

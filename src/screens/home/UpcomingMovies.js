@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../../common/header/Header';
 import MoviesGridList from './MoviesGridList';
+import ReleasedMovies from './ReleasedMovies';
 import './UpcomingMovies.css';
 
 class UpcomingMovies extends React.Component{
@@ -10,6 +11,7 @@ class UpcomingMovies extends React.Component{
                 <Header/>
                 <div className="heading">Upcoming Movies</div> 
                 <MoviesGridList/>
+                <ReleasedMovies/>
             </div>
         )
     }
