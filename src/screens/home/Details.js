@@ -1,10 +1,11 @@
-import { Box, ImageList, ImageListItem, ImageListItemBar, Typography } from "@material-ui/core";
+import { Box, Button, ImageList, ImageListItem, ImageListItemBar, Typography } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom"
 import { filterByMovieId } from "../../common/moviesData";
 import YouTube from 'react-youtube';
 import './Details.css';
 import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Header from "../../common/header/Header";
 
 
 export default function Details(){
@@ -19,6 +20,16 @@ export default function Details(){
     }
 return(
     <div>
+        <div>
+            <Header />
+            <div style={{
+                position: "absolute",
+                left: "80.5%",
+                top: "8.4px",
+             }}>
+            <Link to="/bookshow"><Button variant="contained" color="primary" >BOOK SHOW</Button></Link>
+            </div>
+        </div>
     <div className="back">
         <Link to="/">  &#60; Back to Home</Link>
     </div>
